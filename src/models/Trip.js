@@ -14,5 +14,9 @@ const tripSchema = new mongoose.Schema({
   buddies: [{ type: mongoose.Types.ObjectId, ref: 'User' }],
 });
 
+tripSchema.method('isCreator', function (userId) {
+  return this.creator._id == userId;
+});
+
 const Trip = mongoose.model('Trip', tripSchema);
 module.exports = Trip;
