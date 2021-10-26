@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const renderHome = (req, res) => {
+ // console.log(req.cookies['tokenCookie']);
   res.render('index');
 };
 
