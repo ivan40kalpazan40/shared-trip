@@ -10,6 +10,7 @@ const app = express();
 app.use(express.static(path.resolve(__dirname, './public')));
 require('./config/handlebars');
 initHandlebars(app);
+app.use(express.urlencoded({ extended: true }));
 app.use(router);
 initDb(DB_CONNECTION_STRING)
   .then(() => {
