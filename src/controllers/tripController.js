@@ -49,8 +49,10 @@ const renderDetails = async (req, res) => {
     const isOwner = trip.isOwner(req.user?._id);
     const isJoined = trip.joined(req.user?._id);
     const availability = trip.availability();
+    const displayBuddies = trip.displayBuddies();
     res.render('trip/details', {
       availability,
+      displayBuddies,
       isOwner,
       isJoined,
       trip: trip.toObject(),

@@ -19,7 +19,7 @@ tripSchema.method('isOwner', function (userId) {
 });
 
 tripSchema.method('joined', function (userId) {
-  return this.buddies.includes(userId);
+  return this.buddies.some((x) => x._id == userId);
 });
 
 tripSchema.method('availability', function () {
@@ -29,6 +29,10 @@ tripSchema.method('availability', function () {
 tripSchema.method('joinTrip', function (user) {
   this.buddies.push(user);
   this.save();
+});
+
+tripSchema.method('displayBuddies', function () {
+  return this.buddies.map((x) => x.email).join(', ');
 });
 const Trip = mongoose.model('Trip', tripSchema);
 module.exports = Trip;
