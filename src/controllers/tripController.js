@@ -47,7 +47,8 @@ const renderDetails = async (req, res) => {
   try {
     const trip = await tripServices.getOne(tripId);
     const isOwner = trip.isOwner(req.user?._id);
-    res.render('trip/details', { isOwner, trip: trip.toObject() });
+    const isJoined = trip.joined(req.user?._id);
+    res.render('trip/details', { isOwner, isJoined, trip: trip.toObject() });
   } catch (error) {
     console.log(error.message);
     res.render('404');

@@ -18,5 +18,9 @@ tripSchema.method('isOwner', function (userId) {
   return this.creator._id == userId;
 });
 
+tripSchema.method('joined', function (userId) {
+  return this.buddies.includes(userId);
+});
+
 const Trip = mongoose.model('Trip', tripSchema);
 module.exports = Trip;
