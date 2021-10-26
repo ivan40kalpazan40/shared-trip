@@ -42,7 +42,10 @@
             <div class='actions'>
               {{#if isOwner}}
                 <!-- Only for logged user and creator to this trip -->
-                <a href='' class='btn btn-danger'>Delete this trip</a>
+                <a
+                  href='/trip/{{trip._id}}/delete'
+                  class='btn btn-danger'
+                >Delete this trip</a>
                 <a href='/trip/{{trip._id}}/edit' class='btn btn-warning'>Edit
                   this trip</a>
               {{else}}

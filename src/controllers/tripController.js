@@ -77,11 +77,23 @@ const editTrip = async (req, res) => {
   }
 };
 
+const deleteTrip = async (req, res) => {
+  const tripId = req.params.id;
+  try {
+    await tripServices.removeTrip(tripId);
+    res.redirect('/trip/all');
+  } catch (error) {
+    console.log(error.message);
+    res.render('404');
+  }
+};
+
 router.get('/all', displayTrips);
 router.get('/create', isLogged, renderCreate);
 router.post('/create', isLogged, createTrip);
 router.get('/:id/details', renderDetails);
 router.get('/:id/edit', isLogged, renderEdit);
 router.post('/:id/edit', isLogged, editTrip);
+router.get('/:id/delete', isLogged, deleteTrip);
 
 module.exports = router;
