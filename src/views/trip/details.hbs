@@ -43,7 +43,8 @@
               {{#if isOwner}}
                 <!-- Only for logged user and creator to this trip -->
                 <a href='' class='btn btn-danger'>Delete this trip</a>
-                <a href='' class='btn btn-warning'>Edit this trip</a>
+                <a href='/trip/{{trip._id}}/edit' class='btn btn-warning'>Edit
+                  this trip</a>
               {{else}}
                 <!-- logged in user with available seats -->
                 <a href='' class='btn btn-join'>Join now, [ 1 ] seats left!</a>

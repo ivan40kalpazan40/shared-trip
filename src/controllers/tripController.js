@@ -54,9 +54,34 @@ const renderDetails = async (req, res) => {
   }
 };
 
+const renderEdit = async (req, res) => {
+  const tripId = req.params.id;
+  try {
+    const trip = await tripServices.getOne(tripId);
+    res.render('trip/edit', { trip: trip.toObject() });
+  } catch (error) {
+    console.log(error.message);
+    res.render('404');
+  }
+};
+
+const editTrip = async (req, res) => {
+  const tripId = req.params.id;
+  const update = { ...req.body };
+  try {
+    const trip = await tripServices.updateTrip(tripId, update);
+    res.redirect(`/trip/${tripId}/details`);
+  } catch (error) {
+    console.log(error.message);
+    res.render('404');
+  }
+};
+
 router.get('/all', displayTrips);
 router.get('/create', isLogged, renderCreate);
 router.post('/create', isLogged, createTrip);
 router.get('/:id/details', renderDetails);
+router.get('/:id/edit', isLogged, renderEdit);
+router.post('/:id/edit', isLogged, editTrip);
 
 module.exports = router;
