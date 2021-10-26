@@ -26,6 +26,7 @@ const createTrip = async (req, res) => {
       description,
       creator,
     });
+    res.redirect('/trip/all');
   } catch (error) {
     console.log(error.message);
     res.render('404');
