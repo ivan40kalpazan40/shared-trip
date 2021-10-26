@@ -4,8 +4,9 @@ const tripServices = require('../services/tripServices');
 
 const displayTrips = async (req, res) => {
   try {
-    const trips = await tripServices.getAll();
-    res.render('trip/shared', { trips });
+    const trips = await await tripServices.getAll();
+    const tripList = trips.map((x) => x.toObject());
+    res.render('trip/shared', { trips: tripList });
   } catch (error) {
     console.log(error.message);
     res.render('404');
@@ -40,8 +41,20 @@ const createTrip = async (req, res) => {
   }
 };
 
+const renderDetails = async (req, res) => {
+  const tripId = req.params.id;
+  try {
+    const trip = await tripServices.getOne(tripId);
+    res.render('trip/details', { trip: trip.toObject() });
+  } catch (error) {
+    console.log(error.message);
+    res.render('404');
+  }
+};
+
 router.get('/all', displayTrips);
 router.get('/create', isLogged, renderCreate);
 router.post('/create', isLogged, createTrip);
+router.get('/:id/details', renderDetails);
 
 module.exports = router;
