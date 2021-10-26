@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { isLogged } = require('../middleware/authMiddleware');
 const tripServices = require('../services/tripServices');
 
 const displayTrips = (req, res) => {
@@ -34,7 +35,7 @@ const createTrip = async (req, res) => {
 };
 
 router.get('/all', displayTrips);
-router.get('/create', renderCreate);
-router.post('/create', createTrip);
+router.get('/create', isLogged, renderCreate);
+router.post('/create', isLogged, createTrip);
 
 module.exports = router;
