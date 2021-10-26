@@ -49,7 +49,12 @@ const renderDetails = async (req, res) => {
     const isOwner = trip.isOwner(req.user?._id);
     const isJoined = trip.joined(req.user?._id);
     const availability = trip.availability();
-    res.render('trip/details', { availability, isOwner, isJoined, trip: trip.toObject() });
+    res.render('trip/details', {
+      availability,
+      isOwner,
+      isJoined,
+      trip: trip.toObject(),
+    });
   } catch (error) {
     console.log(error.message);
     res.render('404');
@@ -90,6 +95,23 @@ const deleteTrip = async (req, res) => {
   }
 };
 
+const joinTrip = async (req, res) => {
+  const tripId = req.params.id;
+  try {
+    const trip = await tripServices.getOne(tripId);
+    const isJoined = trip.joined(req.user?._id);
+    if (!isJoined) {
+      await trip.joinTrip(req.user);
+      res.redirect(`/trip/${tripId}/details`);
+    } else {
+      throw new Error('You already joined this trip!');
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.render('404');
+  }
+};
+
 router.get('/all', displayTrips);
 router.get('/create', isLogged, renderCreate);
 router.post('/create', isLogged, createTrip);
@@ -97,5 +119,6 @@ router.get('/:id/details', renderDetails);
 router.get('/:id/edit', isLogged, isCreator, renderEdit);
 router.post('/:id/edit', isLogged, isCreator, editTrip);
 router.get('/:id/delete', isLogged, isCreator, deleteTrip);
+router.get('/:id/join', isLogged, joinTrip);
 
 module.exports = router;

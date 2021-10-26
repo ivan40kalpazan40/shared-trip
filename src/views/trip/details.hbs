@@ -55,7 +55,8 @@
                 {{else}}
                   {{#if availability}}
                     <!-- logged in user with available seats -->
-                    <a href='' class='btn btn-join'>Join now, [
+                    <a href='/trip/{{trip._id}}/join' class='btn btn-join'>Join
+                      now, [
                       {{availability}}
                       ] seats left!</a>
                   {{else}}

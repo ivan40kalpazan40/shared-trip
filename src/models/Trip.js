@@ -25,5 +25,10 @@ tripSchema.method('joined', function (userId) {
 tripSchema.method('availability', function () {
   return this.seats - this.buddies.length;
 });
+
+tripSchema.method('joinTrip', function (user) {
+  this.buddies.push(user);
+  this.save();
+});
 const Trip = mongoose.model('Trip', tripSchema);
 module.exports = Trip;
