@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { isLogged } = require('../middleware/authMiddleware');
+const { isLogged, isCreator } = require('../middleware/authMiddleware');
 const tripServices = require('../services/tripServices');
 
 const displayTrips = async (req, res) => {
@@ -46,7 +46,7 @@ const renderDetails = async (req, res) => {
 
   try {
     const trip = await tripServices.getOne(tripId);
-    const isOwner = trip.isCreator(req.user._id);
+    const isOwner = trip.isOwner(req.user?._id);
     res.render('trip/details', { isOwner, trip: trip.toObject() });
   } catch (error) {
     console.log(error.message);
@@ -92,8 +92,8 @@ router.get('/all', displayTrips);
 router.get('/create', isLogged, renderCreate);
 router.post('/create', isLogged, createTrip);
 router.get('/:id/details', renderDetails);
-router.get('/:id/edit', isLogged, renderEdit);
-router.post('/:id/edit', isLogged, editTrip);
-router.get('/:id/delete', isLogged, deleteTrip);
+router.get('/:id/edit', isLogged, isCreator, renderEdit);
+router.post('/:id/edit', isLogged, isCreator, editTrip);
+router.get('/:id/delete', isLogged, isCreator, deleteTrip);
 
 module.exports = router;
