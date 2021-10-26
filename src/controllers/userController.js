@@ -11,7 +11,7 @@ const registerAndLog = async (req, res) => {
   const { email, password, rePassword, gender } = req.body;
   try {
     await userServices.register(email, password, rePassword, gender);
-    await loginUser(req,res);
+    await loginUser(req, res);
   } catch (error) {
     console.log(error.message);
     res.render('404');
@@ -23,7 +23,7 @@ const renderLogin = (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { email, password, gender } = req.body;
+  const { email, password } = req.body;
   try {
     const user = await userServices.login(email, password);
     const payload = { _id: user._id, email: user.email, gender: user.gender };
@@ -35,8 +35,13 @@ const loginUser = async (req, res) => {
   }
 };
 
+const logoutUser = (req, res) => {
+  res.clearCookie(COOKIE_TOKEN_NAME).redirect('/');
+};
+
 router.get('/register', renderRegister);
 router.post('/register', registerAndLog);
 router.get('/login', renderLogin);
 router.post('/login', loginUser);
+router.get('/logout', logoutUser);
 module.exports = router;
