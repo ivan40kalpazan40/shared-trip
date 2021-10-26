@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const { isConfirmed, hashPass } = require('./generalServices');
+const { isConfirmed, hashPass, comparePass } = require('./generalServices');
 
 const register = async (email, password, rePassword, gender) => {
   if (!isConfirmed(password, rePassword)) {
@@ -14,5 +14,19 @@ const register = async (email, password, rePassword, gender) => {
   }
 };
 
-const userServices = { register };
+const login = async (email, password) => {
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      throw new Error('You must enter valid email and password!');
+    }
+    const isMatch = await comparePass(password, user.password);
+    if (!isMatch) throw new Error('You must enter valid email and password!');
+    return user;
+  } catch (error) {
+    throw new Error('You must enter valid email and password!');
+  }
+};
+
+const userServices = { register, login };
 module.exports = userServices;
