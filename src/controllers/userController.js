@@ -40,9 +40,22 @@ const logoutUser = (req, res) => {
   res.clearCookie(COOKIE_TOKEN_NAME).redirect('/');
 };
 
+const renderProfile = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const user = await userServices.getUser(userId);
+    res.render('user/profile', { user: user.toObject() });
+  } catch (error) {
+    console.log(error.message);
+    res.render('404');
+  }
+};
+
 router.get('/register', isGuest, renderRegister);
 router.post('/register', isGuest, registerAndLog);
 router.get('/login', isGuest, renderLogin);
 router.post('/login', isGuest, loginUser);
 router.get('/logout', isLogged, logoutUser);
+router.get('/:id/profile', renderProfile);
 module.exports = router;

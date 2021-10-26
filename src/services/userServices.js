@@ -28,5 +28,7 @@ const login = async (email, password) => {
   }
 };
 
-const userServices = { register, login };
+const getUser = (id) => User.findById(id);
+
+const userServices = { register, login, getUser };
 module.exports = userServices;
