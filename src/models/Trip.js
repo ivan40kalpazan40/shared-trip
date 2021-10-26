@@ -22,5 +22,8 @@ tripSchema.method('joined', function (userId) {
   return this.buddies.includes(userId);
 });
 
+tripSchema.method('availability', function () {
+  return this.seats - this.buddies.length;
+});
 const Trip = mongoose.model('Trip', tripSchema);
 module.exports = Trip;
