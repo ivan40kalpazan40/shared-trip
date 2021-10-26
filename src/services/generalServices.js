@@ -1,0 +1,9 @@
+const bcrypt = require('bcrypt');
+const { SALT_ROUNDS } = require('../config/constants');
+
+exports.isConfirmed = (pass, repass) => {
+  return pass === repass;
+};
+exports.hashPass = (pass) => {
+  return bcrypt.hash(pass, SALT_ROUNDS);
+};

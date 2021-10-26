@@ -7,11 +7,13 @@ const renderRegister = (req, res) => {
 
 const registerAndLog = async (req, res) => {
   const { email, password, rePassword, gender } = req.body;
-  if (password !== rePassword) {
-    throw new Error('You need to confirm passwords!');
-  }
   try {
-    const user = await userServices.register({ email, password, gender });
+    const user = await userServices.register(
+      email,
+      password,
+      rePassword,
+      gender
+    );
     res.redirect('/');
   } catch (error) {
     console.log(error.message);
