@@ -2,8 +2,14 @@ const router = require('express').Router();
 const { isLogged } = require('../middleware/authMiddleware');
 const tripServices = require('../services/tripServices');
 
-const displayTrips = (req, res) => {
-  res.render('trip/shared');
+const displayTrips = async (req, res) => {
+  try {
+    const trips = await tripServices.getAll();
+    res.render('trip/shared', { trips });
+  } catch (error) {
+    console.log(error.message);
+    res.render('404');
+  }
 };
 
 const renderCreate = (req, res) => {
