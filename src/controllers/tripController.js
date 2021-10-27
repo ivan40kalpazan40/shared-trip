@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { isLogged, isCreator } = require('../middleware/authMiddleware');
 const tripServices = require('../services/tripServices');
+const userServices = require('../services/userServices');
 
 const displayTrips = async (req, res) => {
   try {
@@ -20,8 +21,9 @@ const renderCreate = (req, res) => {
 const createTrip = async (req, res) => {
   const { start, end, date, time, image, brand, seats, price, description } =
     req.body;
-  const creator = req.user;
+
   try {
+    const user = await userServices.getUser(req.user._id);
     const trip = await tripServices.createTrip({
       start,
       end,
@@ -32,8 +34,9 @@ const createTrip = async (req, res) => {
       seats,
       price,
       description,
-      creator,
+      creator: user,
     });
+    await user.addToHistory(trip);
     res.redirect('/trip/all');
   } catch (error) {
     console.log(error.message);

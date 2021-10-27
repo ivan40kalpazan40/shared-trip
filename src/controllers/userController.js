@@ -57,5 +57,5 @@ router.post('/register', isGuest, registerAndLog);
 router.get('/login', isGuest, renderLogin);
 router.post('/login', isGuest, loginUser);
 router.get('/logout', isLogged, logoutUser);
-router.get('/:id/profile', renderProfile);
+router.get('/:id/profile', isLogged, renderProfile);
 module.exports = router;
