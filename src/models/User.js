@@ -14,6 +14,9 @@ userSchema.method('addToHistory', function (trip) {
   this.tripsHistory.push(trip);
   this.save();
 });
+userSchema.method('displayHistory', function () {
+  return this.tripsHistory;
+});
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

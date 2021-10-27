@@ -14,7 +14,8 @@ const displayTrips = async (req, res) => {
     res.render('trip/shared', { trips: tripList });
   } catch (error) {
     console.log(error.message);
-    res.render('404');
+    res.locals.error = error.message;
+    res.render('404', { error: res.locals.error });
   }
 };
 
@@ -44,7 +45,8 @@ const createTrip = async (req, res) => {
     res.redirect('/trip/all');
   } catch (error) {
     console.log(error.message);
-    res.render('404');
+    res.locals.error = error.message;
+    res.render('404', { error: res.locals.error });
   }
 };
 
@@ -66,7 +68,8 @@ const renderDetails = async (req, res) => {
     });
   } catch (error) {
     console.log(error.message);
-    res.render('404');
+    res.locals.error = error.message;
+    res.render('404', { error: res.locals.error });
   }
 };
 
@@ -77,7 +80,8 @@ const renderEdit = async (req, res) => {
     res.render('trip/edit', { trip: trip.toObject() });
   } catch (error) {
     console.log(error.message);
-    res.render('404');
+    res.locals.error = error.message;
+    res.render('404', { error: res.locals.error });
   }
 };
 
@@ -89,7 +93,8 @@ const editTrip = async (req, res) => {
     res.redirect(`/trip/${tripId}/details`);
   } catch (error) {
     console.log(error.message);
-    res.render('404');
+    res.locals.error = error.message;
+    res.render('404', { error: res.locals.error });
   }
 };
 
@@ -100,7 +105,8 @@ const deleteTrip = async (req, res) => {
     res.redirect('/trip/all');
   } catch (error) {
     console.log(error.message);
-    res.render('404');
+    res.locals.error = error.message;
+    res.render('404', { error: res.locals.error });
   }
 };
 
@@ -117,7 +123,8 @@ const joinTrip = async (req, res) => {
     }
   } catch (error) {
     console.log(error.message);
-    res.render('404');
+    res.locals.error = error.message;
+    res.render('404', { error: res.locals.error });
   }
 };
 

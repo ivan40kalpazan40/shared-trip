@@ -28,7 +28,7 @@ const login = async (email, password) => {
   }
 };
 
-const getUser = (id) => User.findById(id);
+const getUser = (id) => User.findById(id).populate('tripsHistory', 'start end date time');
 
 const userServices = { register, login, getUser };
 module.exports = userServices;

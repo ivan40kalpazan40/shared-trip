@@ -15,7 +15,8 @@ const registerAndLog = async (req, res) => {
     await loginUser(req, res);
   } catch (error) {
     console.log(error.message);
-    res.render('404');
+    res.locals.error = error.message;
+    res.render('404', { error: res.locals.error });
   }
 };
 
@@ -32,7 +33,8 @@ const loginUser = async (req, res) => {
     res.cookie(COOKIE_TOKEN_NAME, token, { httpOnly: true }).redirect('/');
   } catch (error) {
     console.log(error.message);
-    res.render('404');
+    res.locals.error = error.message;
+    res.render('404', { error: res.locals.error });
   }
 };
 
@@ -45,10 +47,12 @@ const renderProfile = async (req, res) => {
 
   try {
     const user = await userServices.getUser(userId);
-    res.render('user/profile', { user: user.toObject() });
+    const history = user.displayHistory().map((x) => x.toObject());
+    res.render('user/profile', { history, user: user.toObject() });
   } catch (error) {
     console.log(error.message);
-    res.render('404');
+    res.locals.error = error.message;
+    res.render('404', { error: res.locals.error });
   }
 };
 
