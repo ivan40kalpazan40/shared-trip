@@ -1,5 +1,9 @@
 const router = require('express').Router();
-const { isLogged, isCreator } = require('../middleware/authMiddleware');
+const {
+  isLogged,
+  isCreator,
+  notCreator,
+} = require('../middleware/authMiddleware');
 const tripServices = require('../services/tripServices');
 const userServices = require('../services/userServices');
 
@@ -124,6 +128,6 @@ router.get('/:id/details', renderDetails);
 router.get('/:id/edit', isLogged, isCreator, renderEdit);
 router.post('/:id/edit', isLogged, isCreator, editTrip);
 router.get('/:id/delete', isLogged, isCreator, deleteTrip);
-router.get('/:id/join', isLogged, joinTrip);
+router.get('/:id/join', isLogged, notCreator, joinTrip);
 
 module.exports = router;

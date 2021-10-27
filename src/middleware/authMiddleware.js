@@ -41,3 +41,13 @@ exports.isCreator = async (req, res, next) => {
   }
   res.redirect('/');
 };
+
+exports.notCreator = async (req, res, next) => {
+  const tripId = req.params.id;
+  const trip = await Trip.findById(tripId);
+
+  if (!trip.isOwner(req.user._id)) {
+    return next();
+  }
+  res.redirect('/');
+};
