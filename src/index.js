@@ -1,19 +1,13 @@
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
+const app = require('express')();
+const initExpress = require('./config/express.config');
 const initHandlebars = require('./config/handlebars.config');
 const initDb = require('./config/db.config');
 const { auth } = require('./middleware/authMiddleware');
 const { DB_CONNECTION_STRING, PORT } = require('./config/constants.config');
 const router = require('./router');
-const app = express();
 
-// STATIC FILES SETUP
-app.use(express.static(path.resolve(__dirname, './public')));
-require('./config/handlebars.config');
+initExpress(app);
 initHandlebars(app);
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: true }));
 app.use(auth);
 app.use(router);
 initDb(DB_CONNECTION_STRING)
